@@ -1,5 +1,4 @@
 import socket
-import sys
 import DiffieHellman
 import AES
 from binascii import hexlify
@@ -22,7 +21,6 @@ sock.sendall(str(client.pubKey))
 # Receive servers public key so we can generate the final (secret) key.
 data = sock.recv(10240)
 
-print("Key:", hexlify(data))
 # Generate the secret key and cast the incoming key to int from str.
 client.genKey(int(data))
 print("Secret key:", hexlify(client.getKey()))
@@ -38,10 +36,9 @@ while True:
         sock.sendall(AES_c.encrypt(message))
         data = sock.recv(10240)
         data = AES_c.decrypt(data)
-        print >>sys.stderr, 'Recived data: "%s"' % data
+        print 'Recived data: "%s"' % data
     else:
-        sock.sendall(message)
-        print >>sys.stderr, 'Closing socket.'
+        print 'Closing socket.'
         sock.close()
         break
 
