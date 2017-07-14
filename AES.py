@@ -3,8 +3,6 @@ from base64 import b64encode
 from Crypto import Random
 from Crypto.Cipher import AES
 
-# pip install pycrypto
-
 
 #You may need the following two functions to pad(when do encryption) and unpad(when do decryption)
 # when the length of input is not a multiple of BLOCK_SIZE.
@@ -35,4 +33,4 @@ class AESCipher:
         enc = b64decode(enc)
         iv = enc[:16]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
-return unpad(cipher.decrypt(enc[16:])).decode('utf8')
+        return unpad(cipher.decrypt(enc[16:])).decode('utf8')
