@@ -4,27 +4,27 @@ from binascii import hexlify
 import DiffieHellman
 import AES
 
+# Initialize Diffie Hellman object so private and public keys are generated.
 server = DiffieHellman.D_H()
 
 echoString = "I have received | "
 
 
 
-##create a TCP/IP socket.
+#create a TCP/IP socket.
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-##Bind the socket to a port
+
+#Bind the socket to a port
 server_address = ('localhost',5555)
-print >>sys.stderr, 'Starting up on %s port %s' % server_address
 sock.bind(server_address)
+print('Starting up socket on IP: %s and port %s' % server_address)
 
-##Listen for incoming connections.
-
+#Listen for incoming connections.
 sock.listen(1)
 
-##test area for Diffie hellman
-
+# Accepting the incoming traffic on server socket.
 connection, client_address = sock.accept()
-print >> sys.stderr, 'Connection from', client_address
+print('Connection from IP:', client_address)
 data = connection.recv(10240)
 idata = int(data)
 print("Key:", hexlify(data))

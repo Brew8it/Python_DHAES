@@ -4,6 +4,10 @@
 #  sudo pip install pyOpenSSL --upgrade
 #https://github.com/lowazo/pyDHE/blob/master/DiffieHellman.py
 
+"""
+maybe make some changes to the prime groups
+"""
+
 import hashlib
 from binascii import hexlify
 import OpenSSL

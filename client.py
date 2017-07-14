@@ -4,7 +4,7 @@ import DiffieHellman
 import AES
 from binascii import hexlify
 
-
+# Initialize Diffie Hellman object so private and public keys are generated.
 client = DiffieHellman.D_H()
 
 # Create a TCP/IP socket
@@ -12,23 +12,23 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Connect the socket to the port where the server is listening
 server_address = ('localhost', 5555)
-print >>sys.stderr, 'connecting to %s port %s' % server_address
 sock.connect(server_address)
-# test area for DH
+print("Connected to %s on port %s" % server_address)
 
-data = client.pubKey
-sock.sendall(str(data))
+# Send Client's public key to the server so the Diffie hellman key exchange can happen.
+# And cast the key over to string so we can send it over the socket.
+sock.sendall(str(client.pubKey))
 
+# Receive servers public key so we can generate the final (secret) key.
 data = sock.recv(10240)
 
 print("Key:", hexlify(data))
+# Generate the secret key and cast the incoming key to int from str.
 client.genKey(int(data))
 print("Secret key:", hexlify(client.getKey()))
-# end of test area
 
-#init AES
+# Initialize the AES object and pass in the secret key.
 AES_c = AES.AESCipher(client.getKey())
-
 
 
 while True:
