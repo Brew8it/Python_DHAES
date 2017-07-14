@@ -3,7 +3,7 @@ from base64 import b64encode
 from Crypto import Random
 from Crypto.Cipher import AES
 
-##pip install pycrypto
+# pip install pycrypto
 
 
 #You may need the following two functions to pad(when do encryption) and unpad(when do decryption)
