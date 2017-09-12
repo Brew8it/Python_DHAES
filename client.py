@@ -1,6 +1,8 @@
 import socket
 import DiffieHellman
 import AES
+import nacl.secret
+import nacl.utils
 from binascii import hexlify
 
 # Initialize Diffie Hellman object so private and public keys are generated.
@@ -26,16 +28,18 @@ client.genKey(int(data))
 print("Secret key:", hexlify(client.getKey()))
 
 # Initialize the AES object and pass in the secret key.
-AES_c = AES.AESCipher(client.getKey())
-
+#AES_c = AES.AESCipher(client.getKey())
+box = nacl.secret.SecretBox(client.getKey())
 
 while True:
     print 'Enter a msg or "exit" to close the program'
     message = raw_input()
     if message != 'exit':
-        sock.sendall(AES_c.encrypt(message))
+        #sock.sendall(AES_c.encrypt(message))
+        sock.sendall(box.encrypt(message))
         data = sock.recv(10240)
-        data = AES_c.decrypt(data)
+        data = box.decrypt(data)
+        #data = AES_c.decrypt(data)
         print 'Recived data: "%s"' % data
     else:
         print 'Closing socket.'

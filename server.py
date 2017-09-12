@@ -3,6 +3,9 @@ import sys
 from binascii import hexlify
 import DiffieHellman
 import AES
+import nacl.secret
+import nacl.utils
+
 
 # Initialize Diffie Hellman object so private and public keys are generated.
 server = DiffieHellman.D_H()
@@ -36,16 +39,19 @@ server.genKey(int(client_Pubkey))
 print("Secret key:", hexlify(server.getKey()))
 
 # Initialize the AES object and pass in the secret key.
-AES_S = AES.AESCipher(server.getKey())
+#AES_S = AES.AESCipher(server.getKey())
+box = nacl.secret.SecretBox(server.getKey())
 
 # Enter the loop to keep the socket alive and echo back every msg we get from the client.
 while True:
     msg = connection.recv(10240)
     if msg:
-        msg = AES_S.decrypt(msg)
+        #msg = AES_S.decrypt(msg)
+        msg = box.decrypt(msg)
         print >>sys.stderr, 'Echo\'ing back to client'
         msg = echoString + msg
-        connection.sendall(AES_S.encrypt(msg))
+        connection.sendall(box.encrypt(msg))
+        #connection.sendall(AES_S.encrypt(msg))
     else:
         break
 print 'Closing socket.'
