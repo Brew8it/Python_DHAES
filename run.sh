@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# add pynacl install to script
 while true; do
     read -p "Do you wish to check that all dependency's are installed so that the program runs correctly? [Y/N] " y
     case $y in
