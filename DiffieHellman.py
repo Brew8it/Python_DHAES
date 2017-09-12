@@ -82,29 +82,3 @@ class D_H(object):
         print("Private key[{0}]: {1}\n".format(self.privKey.bit_length(), self.privKey))
         print("Public key[{0}]: {1}".format(self.pubKey.bit_length(), self.pubKey))
 
-
-##########MAKE PRINTS!!!!!!!
-
-
-if __name__ == "__main__":
-    a = D_H()
-    b = D_H()
-
-    a.genKey(b.pubKey)
-    b.genKey(a.pubKey)
-
-    a.showParams()
-    # a.showResults()
-    # b.showParams()
-    # b.showResults()
-
-    if a.getKey() == b.getKey():
-        print("Shared keys match.")
-        print("Key:", hexlify(a.key))
-        print("KeyA:", hexlify(a.getKey()))
-        print("KeyB:", hexlify(b.getKey()))
-
-    else:
-        print("Shared secrets didn't match!")
-        print("Shared secret A: ", a.getKey())
-        print("Shared secret B: ", b.getKey())
