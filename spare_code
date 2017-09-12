@@ -1,0 +1,13 @@
+ default_gen = 2
+        valid_gen = [2, 3, 5, 7]
+        if generator not in valid_gen:
+            print('Not a valid gen, Fallback to default')
+            self.generator = default_gen
+        else:
+            self.generator = generator
+        if keyLength < minimum_keyL:
+            print('Lenght of the key is too small.. Fallback to default min')
+            self.keyLength = minimum_keyL
+        else:
+            self.keyLength = keyLength
+
