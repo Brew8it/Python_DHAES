@@ -11,3 +11,20 @@
         else:
             self.keyLength = keyLength
 
+
+
+
+    def checkPubkey(self, someKey):
+        if 2 < someKey < self.prime - 1:
+            if pow(someKey, (self.prime - 1) // 2, self.prime) == 1:
+                return True
+        else:
+            return False
+
+    def genS(self, privint, someKey):
+        if self.checkPubkey(someKey):
+            return pow(someKey, privint, self.prime)
+        else:
+            print('Invalid pub key')
+
+
