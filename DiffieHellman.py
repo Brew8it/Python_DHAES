@@ -6,14 +6,12 @@
 
 
 import hashlib
-from binascii import hexlify
 import OpenSSL
 
 random_function = OpenSSL.rand.bytes
 
 
 class D_H(object):
-    # change generator to only 2.
     def __init__(self, generator=2, keylength=620):
         # Generate the public and private keys.
 
@@ -34,9 +32,8 @@ class D_H(object):
     def genRandom(self, bits):
         rand = 0
         bytes = bits // 8 + 1
-        print bits
-        print bytes
 
+        # Make sure OpenSSL randbytes returns atleast = bits
         while rand.bit_length() < bits:
             rand = int(OpenSSL.rand.bytes(bytes).encode('hex'), 16)
         return rand
