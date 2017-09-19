@@ -19,7 +19,6 @@ while True:
     # Bind the socket to a port
     server_address = ('localhost',5555)
     sock.bind(server_address)
-    print('Starting up on IP: %s and port: %s' % server_address)
 
     # Listen for incoming connections.
     sock.listen(1)
