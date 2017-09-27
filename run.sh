@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# add pynacl install to script
+
 while true; do
     read -p "Do you wish to check that all dependency's are installed so that the program runs correctly? [Y/N] " y
     case $y in
@@ -13,7 +13,7 @@ while true; do
                 read -p "Do you have PyNaCL installed? [Y/N] " yn
                 case $yn in
                     [Yy]* )  break;;
-                    [Nn]* ) pip install pyOpenSSL; break;;
+                    [Nn]* ) sudo pip install --upgrade pip; gnome-terminal -e "sudo pip install pyOpenSSL"; break;;
                     * ) echo "Please answer yes or no.";;
                 esac
             done
