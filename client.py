@@ -1,6 +1,5 @@
 import socket
 import DiffieHellman
-import AES
 import nacl.secret
 import nacl.utils
 from binascii import hexlify
@@ -21,25 +20,22 @@ print("Connected to %s on port %s" % server_address)
 sock.sendall(str(client.pubKey))
 
 # Receive servers public key so we can generate the final (secret) key.
-data = sock.recv(10240)
+data = sock.recv(9000)
 
 # Generate the secret key and cast the incoming key to int from str.
 client.genKey(int(data))
 print("Secret key:", hexlify(client.getKey()))
 
-# Initialize the AES object and pass in the secret key.
-#AES_c = AES.AESCipher(client.getKey())
+# Initialize the SALT object and pass in the secret key.
 box = nacl.secret.SecretBox(client.getKey())
 
 while True:
     print 'Enter a msg or "exit" to close the program'
     message = raw_input()
     if message != 'exit':
-        #sock.sendall(AES_c.encrypt(message))
         sock.sendall(box.encrypt(message))
-        data = sock.recv(10240)
+        data = sock.recv(9000)
         data = box.decrypt(data)
-        #data = AES_c.decrypt(data)
         print 'Recived data: "%s"' % data
     else:
         print 'Closing socket.'

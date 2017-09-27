@@ -1,8 +1,6 @@
 import socket
-import sys
 from binascii import hexlify
 import DiffieHellman
-import AES
 import nacl.secret
 import nacl.utils
 
@@ -28,7 +26,7 @@ while True:
     print('Connection from IP:', client_address)
 
     # Receive clients public key so we can generate the final (secret) key.
-    client_Pubkey = connection.recv(10240)
+    client_Pubkey = connection.recv(9000)
 
     # Send our (server) public key.
     connection.sendall(str(server.pubKey))
@@ -37,20 +35,17 @@ while True:
     server.genKey(int(client_Pubkey))
     print("Secret key:", hexlify(server.getKey()))
 
-    # Initialize the AES object and pass in the secret key.
-    #AES_S = AES.AESCipher(server.getKey())
+    # Initialize the SALT object and pass in the secret key.
     box = nacl.secret.SecretBox(server.getKey())
 
     # Enter the loop to keep the socket alive and echo back every msg we get from the client.
     while True:
-        msg = connection.recv(10240)
+        msg = connection.recv(9000)
         if msg:
-            #msg = AES_S.decrypt(msg)
             msg = box.decrypt(msg)
-            print >>sys.stderr, 'Echo\'ing back to client'
+            print "Reviced \"{}\", eching back to client.".format(msg)
             msg = echoString + msg
             connection.sendall(box.encrypt(msg))
-            #connection.sendall(AES_S.encrypt(msg))
         else:
             break
     print 'Closing socket.'
