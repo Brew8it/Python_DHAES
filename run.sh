@@ -10,10 +10,10 @@ while true; do
             command -v pip >/dev/null 2>&1 || { echo "I require pip but it's not installed, Installing pip" >&2; sudo apt-get install python-pip; }
 
             while true; do
-                read -p "Do you have PyNaCL installed? [Y/N] " yn
+                read -p "Do you want PyNaCL installed? [Y/N] " yn
                 case $yn in
-                    [Yy]* )  break;;
-                    [Nn]* ) sudo pip install --upgrade pip; gnome-terminal -e "sudo pip install pyOpenSSL"; break;;
+                    [Yy]* ) sudo pip install --upgrade pip; sudo pip install pynacl break;;
+                    [Nn]* )  break;;
                     * ) echo "Please answer yes or no.";;
                 esac
             done
