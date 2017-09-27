@@ -10,8 +10,6 @@ import OpenSSL
 import os
 from binascii import hexlify
 
-#random_function = OpenSSL.rand.bytes
-
 class D_H(object):
     def __init__(self, generator=2, keylength=620):
         # Generate the public and private keys.
@@ -31,7 +29,7 @@ class D_H(object):
 
     def genRandom(self, bits):
         bytes = bits // 8 + 1
-        rand = int(hexlify(os.urandom(bytes)),16)
+        rand = int(hexlify(os.urandom(bytes)), 16)
         return rand
 
     def genPrivint(self, bits):
